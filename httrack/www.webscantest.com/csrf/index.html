@@ -1,0 +1,83 @@
+
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN" "http://www.w3.org/TR/REC-html40/loose.dtd">
+<html>
+	
+<!-- Mirrored from www.webscantest.com/csrf/ by HTTrack Website Copier/3.x [XR&CO'2014], Thu, 19 Aug 2021 04:05:24 GMT -->
+<head>
+	<link type="text/css" rel="stylesheet" href="../css/style.css" />
+		<title></title>
+
+	</head>
+	<body topmargin="0" leftmargin="0" marginheight="0" marginwidth="0" bgcolor="#000000">
+		<table cellspacing="0" cellpadding="0" border="4" align="center" width="810">
+			<tr>
+				<td align="center" style="height:50px"><h1><font color="#FFFFFF">Web Scanner Test Site</font></h1><td>
+			</tr>
+
+						<tr>
+							<td align="right" style="height:50px;"><a class="button" href="../login.html"><font >Login</font></a></h1></td>
+						</tr>
+
+			<tr>
+				<td bgcolor="#FFFFFF" style="padding:15px; vertical-align:top">
+					<table cellspacing="0" cellpadding="0" border="4" align="center" width="80%">
+
+
+<a href='csrfpost.html'>CSRF Post attack method</a>  
+<br/>
+<a href='token.html'>Token attack method</a>  
+<br/>
+<a href='session.html'>Session Token attack method</a>  
+<br/>
+<a href='redirect.html'>Redirect check</a>  
+<br/>
+<a href='aspnetSetCookie.html'>ASP.net coockie simulate</a>  
+<br/>
+
+<script type='text/javascript'>
+
+{
+	//request to the public page
+	var xhr = new XMLHttpRequest();
+	xhr.open('POST.html', 'token_autorized.html');	
+	xhr.setRequestHeader('Content-Type', 'text/plain');
+	xhr.setRequestHeader ('Authorization', 'Bearer 080042cad6356ad5dc0a720c18b53b8e53d4c274');
+	
+	xhr.onreadystatechange = function () 
+	{
+  		if (this.readyState == 4) 
+  		{				
+			document.getElementById('answer').innerHTML = this.status;
+		}
+	}	
+	try
+	{	
+		xhr.send('property=987-65-4320&csrf_token=66e221ffae744cb5d19d6232942fcd63');	
+	}
+	catch(e){} 
+	}
+</script>
+<div id='answer'>
+	No content
+</div> 
+
+
+
+
+
+						<tr style="height:20%; vertical-align:top">
+							<td align="center"><font color="grey" size="-2">The form based credentials are testuser/testpass, and the HTTP Basic credentials are btestuser/btestpass.</font>
+						</tr>
+						
+						<tr style="height:10%; vertical-align:top">
+							<td align="center"><a href="../privacy.html"><font color="#FFFFFF">Privacy Policy</font></a></td>
+						</tr>
+
+					</table>
+				</td>
+			</tr>
+		</table>
+	</body>
+
+<!-- Mirrored from www.webscantest.com/csrf/ by HTTrack Website Copier/3.x [XR&CO'2014], Thu, 19 Aug 2021 04:05:24 GMT -->
+</html>

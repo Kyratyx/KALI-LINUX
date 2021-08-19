@@ -1,0 +1,72 @@
+
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN" "http://www.w3.org/TR/REC-html40/loose.dtd">
+<html>
+	
+<!-- Mirrored from www.webscantest.com/bjax/ by HTTrack Website Copier/3.x [XR&CO'2014], Thu, 19 Aug 2021 04:05:33 GMT -->
+<head>
+	<link type="text/css" rel="stylesheet" href="../css/style.css" />
+		<title>Test Site</title>
+<script type="text/javascript" src="ajax.js"></script>
+	</head>
+	<body topmargin="0" leftmargin="0" marginheight="0" marginwidth="0" bgcolor="#000000">
+		<table cellspacing="0" cellpadding="0" border="4" align="center" width="810">
+			<tr>
+				<td align="center" style="height:50px"><h1><font color="#FFFFFF">Web Scanner Test Site</font></h1><td>
+			</tr>
+
+						<tr>
+							<td align="right" style="height:50px;"><a class="button" href="../login.html"><font >Login</font></a></h1></td>
+						</tr>
+
+			<tr>
+				<td bgcolor="#FFFFFF" style="padding:15px; vertical-align:top">
+					<table cellspacing="0" cellpadding="0" border="4" align="center" width="80%">
+<script>
+
+function createRequestObject() {
+	var ro;
+	var browser = navigator.appName;
+	if(browser == "Microsoft Internet Explorer"){
+		ro = new ActiveXObject("Microsoft.XMLHTTP");
+	}else{
+		ro = new XMLHttpRequest();
+	}
+	return ro;
+}
+
+var http = createRequestObject();
+
+function sndReq(action) {
+	http.open('POST.html', 'backende83f.html?action='+action);
+	http.onreadystatechange = handleResponse;
+	http.send(null);
+}
+
+function handleResponse() {
+	if(http.readyState == 4){
+		var response = http.responseText;
+		alert(response);
+		document.getElementById('MessBox').value = response;
+	}
+}
+
+</script>
+
+<input id="testmsg" type="text" value="Hello AJAX">
+<button onclick="talktoServer()">Say Hello to Server</button>
+<div id="msg_display" style="{ background: yellow; font-weight: bold; }">The data from the server will go here...</div>
+
+
+
+						<tr style="height:20%; vertical-align:top">
+							<td align="center"><font color="grey" size="-2">The form based credentials are testuser/testpass, and the HTTP Basic credentials are btestuser/btestpass.</font>
+						</tr>
+						
+					</table>
+				</td>
+			</tr>
+		</table>
+	</body>
+
+<!-- Mirrored from www.webscantest.com/bjax/ by HTTrack Website Copier/3.x [XR&CO'2014], Thu, 19 Aug 2021 04:06:09 GMT -->
+</html>

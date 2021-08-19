@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<HTML>
+
+<!-- Mirrored from www.webscantest.com/cors/cors.php by HTTrack Website Copier/3.x [XR&CO'2014], Thu, 19 Aug 2021 04:05:24 GMT -->
+<HEAD>
+<TITLE>Test CORS</TITLE>
+
+<script type="text/javascript">
+function ajaxCors() 
+{
+	//request to the public page
+	var xhr = new XMLHttpRequest();
+	xhr.open('GET.html', 'cors_ms.html');	
+	xhr.setRequestHeader('Content-Type', 'text/plain');
+	xhr.setRequestHeader ('Authorization', 'Bearer 080042cad6356ad5dc0a720c18b53b8e53d4c274'); 
+	xhr.onreadystatechange = function () 
+	{
+  		if (this.status == 200 && this.readyState == 4) 
+  		{				
+			document.getElementById("answer_pub").innerHTML = this.responseText;
+		}
+	}	
+	try
+	{	
+		xhr.send();	
+	}
+	catch(e){}
+
+	//request to the private page
+	var xhr = new XMLHttpRequest();
+	xhr.open('GET.html', 'cors_private.html');		
+	xhr.onreadystatechange = function () 
+	{
+  		if (this.status == 200 && this.readyState == 4) 
+  		{				
+			document.getElementById("answer_priv").innerHTML = this.responseText;
+		}
+	}		
+	try
+	{
+		xhr.send();	
+	}
+	catch(e){}
+
+    //request to the volatile page
+	var xhr = new XMLHttpRequest();
+	xhr.open('GET.html', 'cors_volatile.html');		
+	xhr.onreadystatechange = function () 
+	{
+  		if (this.status == 200 && this.readyState == 4) 
+  		{				
+			document.getElementById("answer_volatile").innerHTML = this.responseText;
+		}
+	}		
+	try
+	{
+		xhr.send();	
+	}
+	catch(e){}
+
+	//request to the volatile page with asterix
+	var xhr = new XMLHttpRequest();
+	xhr.open('GET.html', 'cors_allow_all.html');	
+
+	xhr.onreadystatechange = function () 
+	{
+  		if (this.status == 200 && this.readyState == 4) 
+  		{				
+			document.getElementById("answer_volatile_all").innerHTML = this.responseText;
+		}
+	}		
+	try
+	{
+		xhr.send();	
+	}
+	catch(e){}
+
+	//request to NA page
+	var xhr = new XMLHttpRequest();
+	xhr.open('GET.html', 'cors_notAuthorized.html');		
+	xhr.onreadystatechange = function () 
+	{
+  		if (this.status == 200 && this.readyState == 4) 
+  		{				
+			document.getElementById("answer_na").innerHTML = this.responseText;
+		}
+	}		
+	try
+	{
+		xhr.send();	
+	}
+	catch(e){}
+
+	
+
+        //request to NULL page
+	var xhr = new XMLHttpRequest();
+	xhr.open('GET.html', 'cors_null.html');		
+	xhr.onreadystatechange = function () 
+	{
+  		if (this.status == 200 && this.readyState == 4) 
+  		{				
+			document.getElementById("answer_null").innerHTML = this.responseText;
+		}
+	}		
+	try
+	{
+		xhr.send();	
+	}
+	catch(e){}
+
+        //request to invalid header page
+	var xhr = new XMLHttpRequest();
+	xhr.open('GET.html', 'cors_invalid.html');		
+	xhr.onreadystatechange = function () 
+	{
+  		if (this.status == 200 && this.readyState == 4) 
+  		{				
+			document.getElementById("answer_invalid").innerHTML = this.responseText;
+		}
+	}		
+	try
+	{
+		xhr.send();	
+	}
+    catch (e) { }
+
+    //request to csrf-protected page
+    var xhr = new XMLHttpRequest();
+    xhr.open('GET.html', 'cors_CSRF.html');
+    xhr.onreadystatechange = function () {
+        if (this.status == 200 && this.readyState == 4) {
+            document.getElementById("answer_csrf").innerHTML = this.responseText;
+        }
+    }
+    try {
+        xhr.send();
+    }
+    catch (e) { }
+
+	//requesting google font file
+	 //request to csrf-protected page
+    var xhr = new XMLHttpRequest();
+    xhr.open('GET.html', 'https://fonts.gstatic.com/s/roboto/v20/KFOjCnqEu92Fr1Mu51TLBCc3CsTKlA.woff2');    
+	xhr.onreadystatechange = function () {
+        
+            document.getElementById("answer_font").innerHTML = this.status;
+        
+    }
+    try {
+        xhr.send();
+    }
+    catch (e) { }
+	
+}
+</script>
+
+</HEAD>
+<BODY onload="ajaxCors()">
+    <h1>CORS request page </h1>
+    <h2> Public page content will be placed here </h2>
+    <hr>
+    <div id="answer_pub" style="background-color:lightgreen">
+        No content
+    </div>
+    <hr>
+    <h2> Private page content will be placed here </h2>
+    <hr>
+    <div id="answer_priv" style="background-color:lightblue">
+        No content
+    </div>
+    <hr>
+    <h2> Volatile page content will be placed here </h2>
+    <hr>
+    <div id="answer_volatile" style="background-color:lightgray">
+        No content
+    </div>
+    <hr>
+    <h2> Volatile page content accessible for all will be placed here </h2>
+    <hr>
+    <div id="answer_volatile_all" style="background-color:lightgray">
+        No content
+    </div>
+    <hr>
+    <h2> Not Authorized page content will be placed here </h2>
+    <hr>
+    <div id="answer_na" style="background-color:lightgray">
+        No content
+    </div>
+    <hr>
+    <h2> Null page content will be placed here </h2>
+    <hr>
+    <div id="answer_null" style="background-color:lightgray">
+        No content
+    </div>
+    <hr>
+    <h2> Invalid page content will be placed here </h2>
+    <hr>
+    <div id="answer_invalid" style="background-color:lightgray">
+        No content
+    </div>
+    <hr>
+    <h2> csrf-protected page content will be placed here </h2>
+    <hr>
+    <div id="answer_csrf" style="background-color:lightgray">
+        No content
+    </div>
+    <hr>
+	 <div id="answer_invalid" style="background-color:lightgray">
+        No content
+    </div>
+    <hr>
+    <a href="cors_noJS.html">Link to no js queried page</a>
+	  <hr>
+	<div id="answer_font" style="background-color:lightgray">
+        No content
+    </div>
+</BODY>
+
+<!-- Mirrored from www.webscantest.com/cors/cors.php by HTTrack Website Copier/3.x [XR&CO'2014], Thu, 19 Aug 2021 04:05:27 GMT -->
+</HTML>

@@ -1,0 +1,269 @@
+
+<!DOCTYPE html>
+<html>
+
+<!-- Mirrored from www.webscantest.com/soap/demo/ by HTTrack Website Copier/3.x [XR&CO'2014], Thu, 19 Aug 2021 04:05:27 GMT -->
+<head>
+<title>Vulnerable product app</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link href="http://netdna.bootstrapcdn.com/twitter-bootstrap/2.3.2/css/bootstrap-combined.min.css" rel="stylesheet">
+<script src="http://ajax.aspnetcdn.com/ajax/jquery/jquery-1.9.0.js"></script>
+<script src="jquery.xml2json.js"></script>
+<script src="jquery.soap.js"></script>
+<script src="http://netdna.bootstrapcdn.com/twitter-bootstrap/2.3.2/js/bootstrap.min.js"></script>
+<script src="http://ajax.aspnetcdn.com/ajax/knockout/knockout-2.2.1.js"></script>
+</head>
+<body>
+  <div id="app">
+    <div class="navbar">
+        <div class="navbar-inner">
+            <a class="brand" href="#">Vulnerable product app</a><button data-bind="click: beginAdd" class="btn">Add Product</button>
+        </div>
+    </div>
+
+    <div id="main" class="container">
+      <table class="table table-striped">
+          <tr><td>Id</td><td><b>Name</b></td><td><b>Description</b></td><td><b>Price</b></td><td><b>Photo</b></td><td></td></tr>
+          <!-- ko foreach: products -->
+          <tr>
+              <td><p data-bind="text: id"></p></td>
+              <td><p data-bind="text: name"></p></td>
+              <td><p data-bind="text: description"></p></td>
+              <td><p data-bind="text: price"></p></td>
+              <td><img width="100px" data-bind="attr:{src: photo}" />  </td>
+              <td>
+                  <button data-bind="click: $parent.beginEdit" class="btn">Edit</button>
+                  <button data-bind="click: $parent.remove" class="btn">Delete</button>
+              </td>
+          </tr>
+          <!-- /ko -->
+      </table>
+    </div>
+  </div>
+
+      <div id="add" class="modal hide fade" tabindex="=1" role="dialog" aria-labelledby="addDialogLabel" aria-hidden="true">
+          <div class="modal-header">
+              <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+              <h3 id="addDialogLabel">Add Product</h3>
+          </div>
+          <div class="modal-body">
+              <form class="form-horizontal">
+                  <div class="control-group">
+                      <label class="control-label" for="inputName">Name</label>
+                      <div class="controls">
+                          <input data-bind="value: name" type="text" id="inputProduct" placeholder="Product name" style="width: 150px;">
+                      </div>
+                  </div>
+                  <div class="control-group">
+                      <label class="control-label" for="inputDescription">Description</label>
+                      <div class="controls">
+                          <input data-bind="value: description" type="text" id="inputDescription" placeholder="Description" style="width: 300px;">
+                      </div>
+                  </div>
+                  <div class="control-group">
+                      <label class="control-label" for="inputPrice">Price</label>
+                      <div class="controls">
+                          <input data-bind="value: price" type="text" id="inputPrice" placeholder="Price" style="width: 50px;">
+                      </div>
+                  </div>
+                  <div class="control-group">
+                      <label class="control-label" for="inputPhoto">Photo</label>
+                      <div class="controls">
+                          <input data-bind="value: photo" type="text" id="inputPrice" placeholder="Photo URL" style="width: 300px;">
+                      </div>
+                  </div>
+              </form>
+          </div>
+          <div class="modal-footer">
+              <button data-bind="click: addProduct" class="btn btn-primary">Add Product</button>
+              <button class="btn" data-dismiss="modal" aria-hidden="true">Cancel</button>
+          </div>
+      </div>
+
+      <div id="edit" class="modal hide fade" tabindex="=1" role="dialog" aria-labelledby="editDialogLabel" aria-hidden="true">
+          <div class="modal-header">
+              <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+              <h3 id="addDialogLabel">Edit Product</h3>
+          </div>
+          <div class="modal-body">
+              <form class="form-horizontal">
+                  <div class="control-group">
+                      <label class="control-label" for="inputName">Name</label>
+                      <div class="controls">
+                          <input data-bind="value: name" type="text" id="inputProduct" placeholder="Product name" style="width: 150px;">
+                      </div>
+                  </div>
+                  <div class="control-group">
+                      <label class="control-label" for="inputDescription">Description</label>
+                      <div class="controls">
+                          <input data-bind="value: description" type="text" id="inputDescription" placeholder="Description" style="width: 300px;">
+                      </div>
+                  </div>
+                  <div class="control-group">
+                      <label class="control-label" for="inputPrice">Price</label>
+                      <div class="controls">
+                          <input data-bind="value: price" type="text" id="inputPrice" placeholder="Price" style="width: 50px;">
+                      </div>
+                  </div>
+                  <div class="control-group">
+                      <label class="control-label" for="inputPhoto">Photo</label>
+                      <div class="controls">
+                          <input data-bind="value: photo" type="text" id="inputPrice" placeholder="Photo URL" style="width: 300px;">
+                      </div>
+                  </div>
+              </form>
+          </div>
+          <div class="modal-footer">
+              <button data-bind="click: editProduct" class="btn btn-primary">Edit Product</button>
+              <button class="btn" data-dismiss="modal" aria-hidden="true">Cancel</button>
+          </div>
+      </div>
+
+    <script type="text/javascript">
+        function ProductsViewModel() {
+            var self = this;
+            self.baseURI = "api/index.html";
+            self.products = ko.observableArray();
+            self.soap = function(method, data, success) {
+              return $.soap({
+                  url: self.baseURI,
+                  method: method,
+                  appendMethodToURL: false,
+                  data: data,
+                  success: function(soapResponse){
+                    success(soapResponse);
+                  },
+                  error: function (SOAPResponse) {
+                    console.log(soapResponse);
+                  }
+              });
+            }
+
+            self.soap('getAllProducts', {}, function(soapResponse) {
+              var data = soapResponse.toJSON().Body.getAllProductsResponse.return.item;
+              for (var i = 0; i < data.length; i++) {
+                self.products.push({
+                  id: data[i].id.text,
+                  name: ko.observable(data[i].name.text),
+                  description: ko.observable(data[i].description.text),
+                  price: ko.observable(data[i].price.text),
+                  photo: ko.observable(data[i].photo.text)
+                });
+              }
+            });
+
+            self.beginAdd = function() {
+                $("#add").modal("show");
+            }
+              
+              self.add = function(product)
+              {
+                  self.soap("createProduct", product, function(soapResponse){
+                    var data = soapResponse.toJSON().Body.createProductResponse.return;
+                      self.products.push({
+                        id: data.id,
+                        name: ko.observable(data.name),
+                        description: ko.observable(data.description),
+                        price: ko.observable(data.price),
+                        photo: ko.observable(data.photo)
+                      });
+                  });
+
+              }
+
+              self.beginEdit = function(product) {
+                  editProductViewModel.setProduct(product);
+                  $("#edit").modal("show");
+              }
+              self.edit = function(product, data) {
+                    var payload = {
+                      id: product.id,
+                      name: data.name,
+                      description: data.description,
+                      price: data.price,
+                      photo: data.photo
+                    };
+                  self.soap('editProduct', payload, function(soapResponse){
+                    var res = soapResponse.toJSON().Body.editProductResponse.return;
+                    self.updateProduct(product, res);
+                  })
+              }
+              self.updateProduct = function(product, newProduct) {
+                  var i = self.products.indexOf(product);
+                  self.products()[i].name(newProduct.name.text);
+                  self.products()[i].description(newProduct.description.text);
+                  self.products()[i].price(newProduct.price.text);
+                  self.products()[i].photo(newProduct.photo.text);
+              }
+
+            self.remove = function(product) {
+              self.soap("deleteProduct", product, function(soapResponse){
+                self.products.remove(product);
+              });
+            }
+
+        }
+
+      function AddProductViewModel() {
+        var self = this;
+        self.name = ko.observable();
+        self.description = ko.observable();
+        self.price = ko.observable();
+        self.photo = ko.observable();
+
+        self.addProduct = function() {
+            $("#add").modal("hide");
+            productsViewModel.add({
+                  name: self.name(),
+                  description: self.description(),
+                  price: self.price(),
+                  photo: self.photo()
+            });
+
+            self.name("");
+            self.description("");
+            self.price("");
+            self.photo("");
+        }
+      }
+
+    function EditProductViewModel() {
+        var self = this;
+        self.name = ko.observable();
+        self.description = ko.observable();
+        self.price = ko.observable();
+        self.photo = ko.observable();
+
+        self.setProduct = function(product) {
+            self.product = product;
+            self.name(product.name());
+            self.description(product.description());
+            self.price(product.price());
+            self.photo(product.photo());
+            $("#edit").modal("show");
+        }
+        self.editProduct = function() {
+            $("#edit").modal("hide");
+            productsViewModel.edit(self.product, {
+                  name: self.name(),
+                  description: self.description(),
+                  price: self.price(),
+                  photo: self.photo()
+            });
+        }
+    }
+
+      var productsViewModel = new ProductsViewModel();
+      var addProductViewModel = new AddProductViewModel();
+      var editProductViewModel = new EditProductViewModel();
+
+      ko.applyBindings(productsViewModel, $("#app")[0]);
+      ko.applyBindings(addProductViewModel, $("#add")[0]);
+      ko.applyBindings(editProductViewModel, $("#edit")[0]);
+
+
+    </script>
+</body>
+
+<!-- Mirrored from www.webscantest.com/soap/demo/ by HTTrack Website Copier/3.x [XR&CO'2014], Thu, 19 Aug 2021 04:05:29 GMT -->
+</html>
